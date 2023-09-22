@@ -1,0 +1,6 @@
+python==3.10
+streamlit
+git+https://github.com/openai/whisper.git 
+ffmpeg
+gTTS
+audio-recorder-streamlit
