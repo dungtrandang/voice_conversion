@@ -27,13 +27,17 @@ with col1:
     if audio is not None:
         if audio_type == "Recorder":
             audio = BytesIO(audio)
+        st.audio(audio, format='audio/mp3')
+        st.caption('Your audio')
+
         with NamedTemporaryFile(suffix="mp3") as temp:
             temp.write(audio.getvalue())
             temp.seek(0)
             model = whisper.load_model("base")
             result = model.transcribe(temp.name, fp16=False)
-            st.caption('Transcribed Text')
+            
             text = result["text"]
+            st.caption('Transcribed Text')
             st.write(text)
 with col2:
     if audio is not None:
