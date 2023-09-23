@@ -22,8 +22,8 @@ with col1:
         audio = st.file_uploader(" ", type=["mp3", "wav", "ogg"])
     elif audio_type == "Recorder":
         st.subheader('Start recording')
-        audio = audio_recorder(text="Click to record",icon_size="2x", recording_color="#de3e2c", neutral_color="#6aa36f", pause_threshold = 30)
-        st.write(audio)
+        audio = audio_recorder(text="Click to record", icon_size="2x", recording_color="#de3e2c", neutral_color="#6aa36f", pause_threshold=30)
+        st.write(len(audio))
         
     if audio is not None:
         if audio_type == "Recorder":
