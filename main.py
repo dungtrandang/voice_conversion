@@ -39,12 +39,13 @@ with col1:
             result = model.transcribe(temp.name, fp16=False)
             
             text = result["text"]
+            st.caption("Transcribed Text")
+            st.write(text)
+            
 
 with col2:
     if audio is not None:
         st.subheader('Transcribed Audio')
-        st.caption("Transcribed Text")
-        st.write(text)
         mp3_fp = BytesIO()
         tts = gTTS(text=text, lang="en", tld="com")
         tts.write_to_fp(mp3_fp)
