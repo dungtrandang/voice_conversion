@@ -23,11 +23,11 @@ with col1:
     elif audio_type == "Recorder":
         st.subheader('Start recording')
         audio = audio_recorder(text="Click to record",icon_size="2x", recording_color="#de3e2c", neutral_color="#6aa36f", pause_threshold = 30)
+        st.write(audio)
         
     if audio is not None:
         if audio_type == "Recorder":
             audio = BytesIO(audio)
-            st.write(audio)
         st.caption("Your original audio")
         st.audio(audio, format='audio/mp3')
         
