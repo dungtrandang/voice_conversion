@@ -28,7 +28,7 @@ with col1:
         if audio_type == "Recorder":
             audio = BytesIO(audio)
         st.audio(audio, format='audio/mp3')
-        st.markdown('<caption style="text-align: center;">Your audio</caption>', unsafe_allow_html=True)
+        st.markdown('<div style="text-align: center;">Your audio</div>', unsafe_allow_html=True)
 
         with NamedTemporaryFile(suffix="mp3") as temp:
             temp.write(audio.getvalue())
@@ -39,7 +39,7 @@ with col1:
             
             text = result["text"]
             st.write(text)
-            st.markdown('<caption style="text-align: center;">Transcribed Text</caption>', unsafe_allow_html=True)
+            st.markdown('<div style="text-align: center;">Transcribed Text</div>', unsafe_allow_html=True)
 
 with col2:
     if audio is not None:
