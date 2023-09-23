@@ -10,8 +10,8 @@ st.title('Voice Conversion')
 
 audio_type = st.sidebar.radio(
     "Choose audio type",
-    ["File", "Recorder"],
-    captions = ["Upload audio file.", "Record audio."])
+    [ "Recorder", "File"],
+    captions = ["Record audio.", "Upload audio file."])
 
 col1, col2 = st.columns(spec=[0.63,0.37], gap="large")
 
