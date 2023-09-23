@@ -27,6 +27,7 @@ with col1:
     if audio is not None:
         if audio_type == "Recorder":
             audio = BytesIO(audio)
+            st.write(audio)
         st.caption("Your original audio")
         st.audio(audio, format='audio/mp3')
         
@@ -44,7 +45,7 @@ with col1:
             
 
 with col2:
-    if audio is not None and text is not None:
+    if audio is not None and text!="":
         st.subheader('Transcribed Audio')
         mp3_fp = BytesIO()
         tts = gTTS(text=text, lang="en", tld="com")
