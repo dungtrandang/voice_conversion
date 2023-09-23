@@ -50,4 +50,4 @@ with col2:
         tts.write_to_fp(mp3_fp)
         st.audio(mp3_fp, format='audio/mp3')
     elif audio is not None and text=="":
-        st.write("Something went wrong. Please *upload the audio file* or *record* again.")
+        st.write("Something went wrong! Please **upload the audio file** or **record** again.")
