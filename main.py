@@ -16,14 +16,12 @@ audio_type = st.sidebar.radio(
 col1, col2 = st.columns(spec=[0.63,0.37], gap="large")
 
 with col1:
-    
-    if audio_type == "File":
-        st.subheader('Upload an audio file')
-        audio = st.file_uploader(" ", type=["mp3", "wav", "ogg"])
-    elif audio_type == "Recorder":
+    if audio_type == "Recorder":
         st.subheader('Start recording')
         audio = audio_recorder(text="Click to record", icon_size="2x", recording_color="#de3e2c", neutral_color="#6aa36f", pause_threshold=30)
-        st.write(len(audio))
+    elif audio_type == "File":
+        st.subheader('Upload an audio file')
+        audio = st.file_uploader(" ", type=["mp3", "wav", "ogg"])
         
     if audio is not None:
         if audio_type == "Recorder":
