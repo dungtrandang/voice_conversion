@@ -27,8 +27,9 @@ with col1:
     if audio is not None:
         if audio_type == "Recorder":
             audio = BytesIO(audio)
+        st.caption("Your original audio")
         st.audio(audio, format='audio/mp3')
-        st.caption("Your audio")
+        
         st.write("") #add space before transcribed text
         with NamedTemporaryFile(suffix="mp3") as temp:
             temp.write(audio.getvalue())
@@ -38,8 +39,9 @@ with col1:
             result = model.transcribe(temp.name, fp16=False)
             
             text = result["text"]
-            st.write(text)
             st.caption("Transcribed Text")
+            st.write(text)
+            
 
 with col2:
     if audio is not None:
