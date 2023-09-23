@@ -44,10 +44,9 @@ with col1:
             
 
 with col2:
-    if audio is not None:
+    if audio is not None and text is not None:
         st.subheader('Transcribed Audio')
         mp3_fp = BytesIO()
-        if text is not None:
-            tts = gTTS(text=text, lang="en", tld="com")
+        tts = gTTS(text=text, lang="en", tld="com")
         tts.write_to_fp(mp3_fp)
         st.audio(mp3_fp, format='audio/mp3')
