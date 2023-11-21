@@ -2,3 +2,5 @@ git+https://github.com/openai/whisper.git
 gTTS
 audio-recorder-streamlit
 ffmpeg-python
+ffmpeg
+openai
