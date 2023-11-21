@@ -14,6 +14,10 @@ audio_type = st.sidebar.radio(
     [ "Recorder", "File"],
     captions = ["Record audio.", "Upload audio file."])
 
+choose_ai_help = st.radio(
+            "Need AI's revision?",
+            ["I can handle it", "Yes, please"])
+
 col1, col2 = st.columns(spec=[0.45,0.55], gap="large")
 
 with col1:
@@ -58,10 +62,6 @@ with col2:
         st.subheader('Transcribed Audio')
         tts = gTTS(text=text, lang="en", tld="com")
         display_audio(tts)
-
-        choose_ai_help = st.radio(
-            "Need AI's help?",
-            ["I can handle it", "Yes, please"])
         
         if choose_ai_help == "Yes, please":
             refined_text = ai_help(text)

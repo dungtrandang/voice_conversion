@@ -8,7 +8,7 @@ def correctness(text):
         {"role": "system", "content": "You are a language refinement assistant. \
         Refine chat for natural flow. \
         Shorten your response in 100 characters at most. "},
-        {"role": "user", "content": f"{text}"}
+        {"role": "user", "content": f"Refine chat for natural flow: {text}"}
     ]
     )
     return completion.choices[0].message.content
