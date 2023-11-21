@@ -11,4 +11,4 @@ def correctness(text):
         {"role": "user", "content": f"{text}"}
     ]
     )
-    return completion.choices[0].message
+    return completion.choices[0].message.content
