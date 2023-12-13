@@ -17,7 +17,7 @@ level = st.selectbox("Select your level", options =[
     "CERF C1",
     "CERF C2",
 ])
-sk_question = "Do you like shopping" #question()
+sk_question = "What do you like about your hometown?" #question()
 st.markdown(f"### {sk_question}")
 
 audio = audio_recorder(text="Ask for help", icon_size="2x", recording_color="#de3e2c", neutral_color="#6aa36f", pause_threshold=30)
@@ -41,14 +41,13 @@ if audio is not None:
         st.caption("Your request")
         st.write(text)
 else:
-    text=st.text_input("",placeholder='Nhập câu hỏi của bạn...', label_visibility="collapsed")
-    st.caption("Your request")
-    st.write(text)
+    text=st.text_input("Nhập yêu cầu của bạn",placeholder='Nhập câu hỏi của bạn...', label_visibility="collapsed")
+    st.write(f"Yêu cầu của bạn: {text}")
 if text:
     hints = hint(level, sk_question, text).get("hints")
     for hint in hints:
         st.markdown(f"""
                     **Hint: {hint.get("phrase")}**  
-                    Meaning: {hint.get("meaning")}  
+                    ({hint.get("meaning")})  
                     *Example: {hint.get("example")}*  
                     """)

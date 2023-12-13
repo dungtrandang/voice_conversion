@@ -56,11 +56,11 @@ def hint(level, question, user_question):
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": f"You support the english learner to answer an English {question}. \
-        The learner will ask an user_question related to the original question. \
+        The learner will ask an user_question - an question or an idea or an request related to the original question. \
         Respond 3 hints only - not full sentence, that is suitable with the level {level}. \
         Each hint includes a nice phrase in the format of a linguistic constructs (e.g. worn out, focus on, kick the bucket), \
-        the respective meaning related to the original question and an example. \
-        If user_question is in Vietnamese, respond the meaning in Vietnamese. If user_question is in English, respond the meaning in English. \
+        the respective meaning in Vietnamese and an example related to the original question. \
+        # If user_question is in Vietnamese, respond the meaning in Vietnamese. If user_question is in English, respond the meaning in English. \
          "},
         {"role": "user", "content": f"{user_question}"}
     ],
