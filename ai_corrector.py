@@ -2,8 +2,10 @@ import openai
 from openai import OpenAI
 import json
 import streamlit as st
-openai.api_key = st.secrets["key"]
-client = OpenAI()
+try:
+    client = OpenAI(api_key=st.secrets["key"])
+except:
+    lient = OpenAI()
 
 functions = [
     {
