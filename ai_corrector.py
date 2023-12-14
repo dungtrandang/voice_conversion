@@ -1,7 +1,8 @@
 import openai
 from openai import OpenAI
 import json
-
+import streamlit as st
+# openai.api_key = st.secrets["key"]
 client = OpenAI()
 
 functions = [
@@ -59,7 +60,7 @@ def hint(level, question, user_question):
         The learner will ask an user_question - an question or an idea or an request related to the original question. \
         Respond 3 hints only - not full sentence, that is suitable with the level {level}. \
         Each hint includes a nice phrase in the format of a linguistic constructs (e.g. worn out, focus on, kick the bucket), \
-        the respective meaning in Vietnamese and an example related to the original question. \
+        the respective meaning always in Vietnamese and an example related to the original question. \
         # If user_question is in Vietnamese, respond the meaning in Vietnamese. If user_question is in English, respond the meaning in English. \
          "},
         {"role": "user", "content": f"{user_question}"}
@@ -91,7 +92,7 @@ def correctness(text):
     string = completion.choices[0].message.function_call.arguments
     output = json.loads(string)
     return output.get("fixed text"), output.get("explaination")
-# openai.my_api_key = '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'
+
 # print(correctness("I have a dog."))
 
 def question():
@@ -99,7 +100,7 @@ def question():
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": "You are an IELTS test maker. \
-        respond an IELTS Speaking part 1 question only without any other comment, introduction or explaination \
+        respond an IELTS Speaking part 1 question only without any other comment, introduction, explaination or answer \
          "},
         {"role": "user", "content": f""}
     ])
