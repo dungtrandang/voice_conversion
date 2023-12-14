@@ -2,7 +2,7 @@ import openai
 from openai import OpenAI
 import json
 import streamlit as st
-# openai.api_key = st.secrets["key"]
+openai.api_key = st.secrets["key"]
 client = OpenAI()
 
 functions = [
