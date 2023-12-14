@@ -39,9 +39,9 @@ function2 = [
                     "items": {
                         "type": "object",
                         "properties": {
-                            "phrase": { "type": "string", "description": "Suggested phrase, idiom, collocation to use to answer the question, e.g. focus on" },
-                            "meaning": { "type": "string", "description": "Meaning of the phrase in Vietnamese, e.g. tập trung" },
-                            "example": { "type": "string", "description": "An example of the phrase in use, e.g. On my busy day, I will focus on high-priority items first." },
+                            "phrase": { "type": "string", "description": "Suggested phrase, idiom, collocation, which is always in english to use to answer the question, e.g. focus on" },
+                            "meaning": { "type": "string", "description": "Meaning of the phrase that is always in Vietnamese, e.g. tập trung" },
+                            "example": { "type": "string", "description": "An example of the phrase in use which is always in English, e.g. On my busy day, I will focus on high-priority items first." },
                     },
                         "description":"List of suggested phrases"
                 },
