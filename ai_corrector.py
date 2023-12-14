@@ -62,7 +62,7 @@ def hint(level, question, user_question):
         The learner will ask an user_question - an question or an idea or an request related to the original question. \
         Respond 3 hints only - not full sentence, that is suitable with the level {level}. \
         Each hint includes a nice phrase in the format of a linguistic constructs (e.g. worn out, focus on, kick the bucket), \
-        the respective meaning always in Vietnamese and an example related to the original question. \
+        the respective meaning always in Vietnamese and an example always in English that related to the original question. \
         # If user_question is in Vietnamese, respond the meaning in Vietnamese. If user_question is in English, respond the meaning in English. \
          "},
         {"role": "user", "content": f"{user_question}"}
