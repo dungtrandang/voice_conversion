@@ -41,10 +41,10 @@ if 'sk_question' not in st.session_state or st.button("Next question"):
 st.markdown(f"### {st.session_state.sk_question}")
 
 
-text=st.text_input("Nhập yêu cầu của bạn",placeholder='Nhập câu hỏi của bạn...', label_visibility="collapsed")
+text=st.text_input("Nhập ý tưởng của bạn",placeholder='Nhập ý tưởng của bạn...', label_visibility="collapsed")
     
 if text:
-    st.write(f"Yêu cầu của bạn: {text}")
+    st.write(f"Yêu cầu của bạn: ***{text}***")
     hints = hint(level, st.session_state.sk_question, text).get("hints")
     if hints:
         for hint in hints:

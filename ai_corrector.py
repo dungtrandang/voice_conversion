@@ -3,9 +3,9 @@ from openai import OpenAI
 import json
 import streamlit as st
 try:
-    client = OpenAI(api_key=st.secrets["key"])
+    client = OpenAI()
 except:
-    lient = OpenAI()
+    client = OpenAI(api_key=st.secrets["key"])
 
 functions = [
     {
@@ -39,33 +39,51 @@ function2 = [
                     "items": {
                         "type": "object",
                         "properties": {
-                            "phrase": { "type": "string", "description": "Suggested phrase, idiom, collocation, which is always in english to use to answer the question, e.g. focus on" },
-                            "meaning": { "type": "string", "description": "Meaning of the phrase that is always in Vietnamese, e.g. tập trung" },
-                            "example": { "type": "string", "description": "An example of the phrase in use which is always in English, e.g. On my busy day, I will focus on high-priority items first." },
-                    },
+                            "phrase": { "type": "string", "description": "Suggested phrase, idiom, collocation, which is always in english, to use to answer the question, e.g. focus on" },
+                            "meaning": { "type": "string", "description": "Meaning of the phrase, which is always in Vietnamese, e.g. tập trung" },
+                            "example": { "type": "string", "description": "An example of the phrase in use, which is always in English, e.g. On my busy day, I will focus on high-priority items first." },
+                                      },
                         "description":"List of suggested phrases"
-                },
+                             },
                      "required": ["suggest","gợi ý"],
                 
-            }
+                        }
+                         }
+                      }
+    },
+    {
+        "name": "translate",
+        "description": "Translate the request of user to english in native way",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "translate text": {
+                    "type": "string",
+                    "description": "refined part of the text output."
+                },
+                # "explaination": {
+                #     "type": "string",
+                #     "description": "explaination of the text output."
+                # }
+            },
+            "required": ["translate","dịch"],
         }
     }
-    }
+
 ]
 
 
-def hint(level, question, user_question):
+def hint(level, question, idea):
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gpt-3.5-turbo-0613",
     messages=[
         {"role": "system", "content": f"You support the english learner to answer an English {question}. \
-        The learner will ask an user_question - an question or an idea or an request related to the original question. \
-        Respond 3 hints only - not full sentence, that is suitable with the level {level}. \
+        The learner might  you an  idea - an question or an idea or an request related to the original question. \
+        Respond 3 hints only - not in full sentence, that is suitable with the level {level}. \
         Each hint includes a nice phrase in the format of a linguistic constructs (e.g. worn out, focus on, kick the bucket), \
-        the respective meaning always in Vietnamese and an example always in English that related to the original question. \
-        # If user_question is in Vietnamese, respond the meaning in Vietnamese. If user_question is in English, respond the meaning in English. \
+        the respective meaning, which is always in Vietnamese, and an example that related to the original question. \
          "},
-        {"role": "user", "content": f"{user_question}"}
+        {"role": "user", "content": f"'{idea}' in English?"}
     ],
     functions = function2,
     function_call = {
