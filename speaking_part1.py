@@ -36,7 +36,7 @@ questions = [
     "What is your favorite form of entertainment?",
     "How do you usually spend your weekends?"
 ]
-if 'sk_question' not in st.session_state or st.button("Next question"):
+if st.button("Next question") or 'sk_question' not in st.session_state :
     st.session_state.sk_question = random.choice(questions)
 st.markdown(f"### {st.session_state.sk_question}")
 

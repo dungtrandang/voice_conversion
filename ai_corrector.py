@@ -7,27 +7,7 @@ try:
 except:
     client = OpenAI(api_key=st.secrets["key"])
 
-functions = [
-    {
-        "name": "refined_func",
-        "description": "Shows the refined text and explaination for the revision of some text.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "fixed text": {
-                    "type": "string",
-                    "description": "refined part of the text output."
-                },
-                "explaination": {
-                    "type": "string",
-                    "description": "explaination of the text output."
-                }
-            }
-        }
-    }
-]
-
-function2 = [
+answer_func = [
     {
         "name": "suggested_phrases",
         "description": "Suggest phrases to answer a question",
@@ -60,11 +40,7 @@ function2 = [
                 "translate text": {
                     "type": "string",
                     "description": "refined part of the text output."
-                },
-                # "explaination": {
-                #     "type": "string",
-                #     "description": "explaination of the text output."
-                # }
+                }
             },
             "required": ["translate","dịch"],
         }
@@ -75,7 +51,7 @@ function2 = [
 
 def hint(level, question, idea):
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-0613",
+    model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": f"You support the english learner to answer an English {question}. \
         The learner might  you an  idea - an question or an idea or an request related to the original question. \
@@ -85,7 +61,7 @@ def hint(level, question, idea):
          "},
         {"role": "user", "content": f"'{idea}' in English?"}
     ],
-    functions = function2,
+    functions = answer_func,
     function_call = {
         "name": "suggested_phrases"
     }
@@ -93,6 +69,26 @@ def hint(level, question, idea):
     string = completion.choices[0].message.function_call.arguments
     output = json.loads(string)
     return output
+
+correct_func = [
+    {
+        "name": "refined_func",
+        "description": "Shows the refined text and explaination for the revision of some text.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fixed text": {
+                    "type": "string",
+                    "description": "refined part of the text output."
+                },
+                "explaination": {
+                    "type": "string",
+                    "description": "explaination of the text output."
+                }
+            }
+        }
+    }
+]
 
 def correctness(text):
     completion = client.chat.completions.create(
@@ -104,9 +100,9 @@ def correctness(text):
          "},
         {"role": "user", "content": f"{text}"}
     ],
-    functions = functions,
+    functions = correct_func,
     function_call = {
-        "name": functions[0]["name"]
+        "name": correct_func[0]["name"]
     }
     )
     string = completion.choices[0].message.function_call.arguments
