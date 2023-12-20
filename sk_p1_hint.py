@@ -8,8 +8,9 @@ import base64
 from audio_recorder_streamlit import audio_recorder
 from ai_corrector import correctness, question, hint
 import random
-
-
+from random import sample
+st.session_state.sk_question = ''
+sys_random = random.SystemRandom()
 topic_question = [
   {
     "category": "Family",
@@ -43,7 +44,8 @@ topic_question = [
   }
 ]
 question_hint = [
-    {'question': "How often do you use technology in your daily life?",
+  {
+    'question': "How often do you use technology in your daily life?",
     'phrases': [
       { 'phrase': "check my messages", 'meaning': "kiểm tra tin nhắn", 'example': "I check my messages on my phone several times a day." },
       { 'phrase': "use my smartphone", 'meaning': "sử dụng điện thoại thông minh", 'example': "I use my smartphone for various tasks throughout the day." },
@@ -131,14 +133,13 @@ question_hint = [
       { 'phrase': "family routines", 'meaning': "thói quen gia đình", 'example': "I find family routines important as they help us every day." },
       { 'phrase': "family ceremonies", 'meaning': "những lễ kỷ niệm của gia đình", 'example': "I enjoy family ceremonies because they make us feel close." },
       { 'phrase': "family conventions", 'meaning': "những phong tục gia đình", 'example': "I value family conventions because they make us unique." },
-      { 'phrase': "family traditions", 'meaning': "những truyền thống gia đình", 'example': "I care about family traditions because they are special to us." },
       { 'phrase': "family practices", 'meaning': "những thói quen gia đình", 'example': "I love family practices because they make us happy." },
     ]
   },
   {
     'question': "Who are you closest to in your family?",
     'phrases': [
-      {'phrase': "share a strong bond with", 'meaning': "chia sẻ mối liên kết mạnh mẽ với", 'example': "I am closest to my younger sister; we share a strong bond and confide in each other about various aspects of our lives."},
+      {'phrase': "share a strong bond", 'meaning': "chia sẻ mối liên kết mạnh mẽ", 'example': "I am closest to my younger sister; we share a strong bond and confide in each other about various aspects of our lives."},
       { 'phrase': "rely on for support", 'meaning': "trông cậy vào sự hỗ trợ", 'example': "I rely on my uncle for support; he gives me valuable advice when I need it." },
       { 'phrase': "have a good connection with", 'meaning': "có một mối liên kết tốt với", 'example': "I have a good connection with my cousin; we have similar interests and hobbies." },
       {'phrase': "share a close relationship with", 'meaning': "chia sẻ mối quan hệ gắn bó với", 'example': "I share a close relationship with my mother; her unconditional love and support have been the pillars of strength in my life."},
@@ -168,7 +169,7 @@ question_hint = [
       {'phrase': "strengthen family bonds", 'meaning': "củng cố mối quan hệ gia đình", 'example': "Frequent visits help strengthen family bonds and maintain a close connection with relatives."},
       {'phrase': "recharge my emotional batteries", 'meaning': "nạp lại năng lượng cảm xúc", 'example': "Visiting my hometown acts as a way to recharge my emotional batteries and find inner peace."},
       {'phrase': "celebrate family milestones", 'meaning': "kỷ niệm những cột mốc của gia đình", 'example': "We often gather in our hometown to celebrate important family milestones and achievements."},
-      {'phrase': "visit historical landmarks", 'meaning': "ghé thăm các địa danh lịch sử", 'example': "One of the highlights of visiting my hometown is exploring historical landmarks and monuments."},
+      {'phrase': "explore historical landmarks", 'meaning': "khám phá các địa danh lịch sử", 'example': "One of the highlights of visiting my hometown is exploring historical landmarks and monuments."},
       {'phrase': "relive precious childhood moments", 'meaning': "hồi tưởng lại những khoảnh khắc quý giá thời thơ ấu", 'example': "Returning to my hometown allows me to relive precious childhood moments with friends and family."},
       {'phrase': "connect with my roots", 'meaning': "kết nối với cội nguồn", 'example': "Visiting my hometown is a way for me to connect with my cultural roots and heritage."},
       {'phrase': "strengthen ties with childhood friends", 'meaning': "củng cố mối quan hệ với bạn bè thời thơ ấu", 'example': "My hometown visits give me the chance to strengthen ties with my childhood friends."},
@@ -226,7 +227,7 @@ question_hint = [
       { 'phrase': "boast iconic structures", 'meaning': "tự hào với các công trình biểu tượng", 'example': "My hometown boasts iconic structures that symbolize its identity." },
       { 'phrase': "include famous landmarks", 'meaning': "bao gồm các điểm địa danh nổi tiếng", 'example': "The city includes famous landmarks that are recognized nationally." },
       { 'phrase': "contain recognized sites", 'meaning': "bao gồm những địa điểm được công nhận", 'example': "My hometown contains recognized sites that have cultural significance." },
-      { 'phrase': "have well-known places", 'meaning': "có những địa điểm nổi tiếng", 'example': "There are well-known places in my hometown where people often gather." },
+      { 'phrase': "well-known places", 'meaning': "những địa điểm nổi tiếng", 'example': "There are well-known places in my hometown where people often gather." },
       { 'phrase': "feature popular attractions", 'meaning': "đặc trưng với các điểm thu hút phổ biến", 'example': "The town features popular attractions that draw visitors throughout the year." },
       { 'phrase': "boast famous landmarks", 'meaning': "tự hào với các điểm địa danh nổi tiếng", 'example': "Our hometown boasts famous landmarks that reflect its cultural heritage." },
       { 'phrase': "include renowned sites", 'meaning': "bao gồm các địa điểm nổi tiếng", 'example': "The city includes renowned sites that are often featured in travel guides." },
@@ -234,7 +235,7 @@ question_hint = [
       { 'phrase': "contain well-known landmarks", 'meaning': "bao gồm các điểm địa danh nổi tiếng", 'example': "The region contains well-known landmarks that are part of our heritage." },
       { 'phrase': "feature famous sites", 'meaning': "đặc sắc với các địa điểm nổi tiếng", 'example': "Our hometown features famous sites that attract visitors from far and wide." },
       { 'phrase': "boast recognized structures", 'meaning': "tự hào với các công trình được công nhận", 'example': "The city boasts recognized structures that showcase its architectural history." },
-      { 'phrase': "include popular landmarks", 'meaning': "bao gồm các điểm địa danh phổ biến", 'example': "There are popular landmarks in my hometown that people often visit for sightseeing." },
+      { 'phrase': "popular landmarks", 'meaning': "các điểm địa danh phổ biến", 'example': "There are popular landmarks in my hometown that people often visit for sightseeing." },
       { 'phrase': "have well-known buildings", 'meaning': "có các công trình nổi tiếng", 'example': "Our hometown has well-known buildings that are considered architectural treasures." },
     ]
   },
@@ -242,17 +243,17 @@ question_hint = [
     'question': "How has your hometown changed over the years?",
     'phrases': [
       { 'phrase': "see new buildings", 'meaning': "nhìn thấy các tòa nhà mới", 'example': "Over the years, I've seen new buildings being constructed in my hometown." },
-      { 'phrase': "notice increased population", 'meaning': "nhận thấy dân số tăng lên", 'example': "One significant change is the increased population in my hometown." },
+      { 'phrase': "increased population", 'meaning': "dân số tăng lên", 'example': "One significant change is the increased population in my hometown." },
       { 'phrase': "observe improved infrastructure", 'meaning': "quan sát cơ sở hạ tầng được cải thiện", 'example': "I've observed improved infrastructure with better roads and facilities." },
       { 'phrase': "witness more businesses", 'meaning': "chứng kiến sự gia tăng của các doanh nghiệp", 'example': "I've witnessed the emergence of more businesses in the area." },
       { 'phrase': "experience better public transport", 'meaning': "trải qua sự cải thiện của giao thông công cộng", 'example': "One positive change is the experience of better public transport options." },
-      { 'phrase': "see new parks and green spaces", 'meaning': "nhìn thấy các công viên và không gian xanh mới", 'example': "New parks and green spaces have been added to enhance the environment." },
+      { 'phrase': "new parks and green spaces", 'meaning': "các công viên và không gian xanh mới", 'example': "New parks and green spaces have been added to enhance the environment." },
       { 'phrase': "notice upgraded facilities", 'meaning': "nhận thấy cơ sở vật chất được nâng cấp", 'example': "I've noticed upgraded facilities, such as schools and hospitals." },
-      { 'phrase': "observe modernized transportation", 'meaning': "quan sát giao thông được hiện đại hóa", 'example': "There has been a noticeable modernization of transportation in my hometown." },
-      { 'phrase': "witness improved technology access", 'meaning': "chứng kiến sự cải thiện trong việc tiếp cận công nghệ", 'example': "People in my hometown now have improved access to technology." },
-      { 'phrase': "experience more cultural events", 'meaning': "trải qua nhiều sự kiện văn hóa hơn", 'example': "There has been an increase in the number of cultural events and festivals." },
-      { 'phrase': "see changes in local businesses", 'meaning': "nhìn thấy sự thay đổi trong các doanh nghiệp địa phương", 'example': "Local businesses have undergone changes, adapting to new trends." },
-      { 'phrase': "notice improved educational facilities", 'meaning': "nhận thấy cơ sở giáo dục được cải thiện", 'example': "The educational facilities in my hometown have noticeably improved." },
+      { 'phrase': "modernized transportation", 'meaning': "giao thông được hiện đại hóa", 'example': "There has been a noticeable modernization of transportation in my hometown." },
+      { 'phrase': "improve technology access", 'meaning': "cải thiện trong việc tiếp cận công nghệ", 'example': "People in my hometown now have improved access to technology." },
+      { 'phrase': "cultural events", 'meaning': "các sự kiện văn hóa", 'example': "There has been an increase in the number of cultural events and festivals." },
+      { 'phrase': "local businesses", 'meaning': "các doanh nghiệp địa phương", 'example': "Local businesses have undergone changes, adapting to new trends." },
+      { 'phrase': "educational facilities", 'meaning': "cơ sở vật chất cho giáo dục", 'example': "The educational facilities in my hometown have noticeably improved." },
       { 'phrase': "observe enhanced community services", 'meaning': "quan sát sự cải thiện trong dịch vụ cộng đồng", 'example': "There has been an observable enhancement in community services." },
       { 'phrase': "notice improved public services", 'meaning': "nhận thấy cải thiện trong các dịch vụ công cộng", 'example': "I've noticed improved public services, making daily life more convenient for residents." },
       { 'phrase': "witness a rise in tourism", 'meaning': "chứng kiến sự tăng lên trong du lịch", 'example': "One significant change is witnessing a rise in tourism, attracting more visitors to my hometown." },
@@ -305,12 +306,12 @@ question_hint = [
       { 'phrase': "acquire a smartwatch", 'meaning': "mua đồng hồ thông minh", 'example': "I recently acquired a smartwatch to track my fitness activities." },
       { 'phrase': "obtain a new camera", 'meaning': "sở hữu máy ảnh mới", 'example': "I obtained a new camera to capture high-quality photos during my travels." },
       { 'phrase': "invest in a fitness tracker", 'meaning': "đầu tư vào dụng cụ theo dõi sức khỏe", 'example': "I recently invested in a fitness tracker to monitor my daily activity levels." },
-      { 'phrase': "purchase wireless earbuds", 'meaning': "mua tai nghe không dây", 'example': "I bought wireless earbuds for a more convenient and tangle-free listening experience." },
+      { 'phrase': "buy wireless earbuds", 'meaning': "mua tai nghe không dây", 'example': "I bought wireless earbuds for a more convenient and tangle-free listening experience." },
       { 'phrase': "get a new television", 'meaning': "sở hữu tivi mới", 'example': "I recently got a new television for better viewing quality." },
       { 'phrase': "buy a gaming console", 'meaning': "mua máy chơi game", 'example': "I purchased a gaming console to enjoy playing video games with friends." },
       { 'phrase': "acquire a portable charger", 'meaning': "mua sạc di động", 'example': "I acquired a portable charger to keep my devices charged while traveling." },
       { 'phrase': "invest in a new printer", 'meaning': "đầu tư vào máy in mới", 'example': "I recently invested in a new printer for my home office needs." },
-      { 'phrase': "purchase a smart home device", 'meaning': "mua thiết bị nhà thông minh", 'example': "I bought a smart home device to control lights and appliances with my phone." },
+      { 'phrase': "buy a smart home device", 'meaning': "mua thiết bị nhà thông minh", 'example': "I bought a smart home device to control lights and appliances with my phone." },
       { 'phrase': "get a new keyboard and mouse", 'meaning': "sở hữu bàn phím và chuột mới", 'example': "I got a new keyboard and mouse to enhance my computer setup." },
       { 'phrase': "buy a new router", 'meaning': "mua router mới", 'example': "I recently bought a new router to improve my internet connection at home." },
       { 'phrase': "acquire a power bank", 'meaning': "mua sạc dự phòng", 'example': "I acquired a power bank for emergencies to charge my phone on the go." }
@@ -329,7 +330,6 @@ question_hint = [
       { 'phrase': "set alarms", 'meaning': "đặt báo thức", 'example': "I rely on my phone to set alarms to wake me up in the morning." },
       { 'phrase': "listen to music", 'meaning': "nghe nhạc", 'example': "I use my phone to listen to music while I'm commuting or exercising." },
       { 'phrase': "watch videos", 'meaning': "xem video", 'example': "I often watch videos on my computer for entertainment and learning purposes." },
-      { 'phrase': "use apps", 'meaning': "sử dụng ứng dụng", 'example': "I have various apps on my phone for different purposes, such as productivity and health." },
       { 'phrase': "send photos", 'meaning': "gửi ảnh", 'example': "I use my phone to send photos to my friends, especially when we can't meet in person." },
       { 'phrase': "check the weather", 'meaning': "kiểm tra thời tiết", 'example': "Before going out, I check the weather forecast on my phone to plan my day." },
       { 'phrase': "make video calls", 'meaning': "thực hiện cuộc gọi video", 'example': "I connect with my family through video calls on my phone when we are apart." },
@@ -346,28 +346,27 @@ question_hint = [
       { 'phrase': "customize settings", 'meaning': "tùy chỉnh cài đặt", 'example': "I like to customize the settings on my phone to suit my preferences and needs." }
         ]
   },
-]
+];
 st.title('SPEAKING PART 1')
 topics = [topic["category"] for topic in topic_question]
 def choose_question(value):
     for top_quest in topic_question:
         if value == top_quest["category"]:
             questions = top_quest["questions"] 
-    question = random.choice(questions)
-    if st.button('Change question')or 'sk_question' not in st.session_state :
-        st.session_state.sk_question = random.choice(questions)
+    st.session_state.sk_question = sys_random.choice(questions)
+    if st.button('Change question')or 'sk_question'=='':
+        st.session_state.sk_question = sys_random.choice(questions)
     return st.session_state.sk_question
 def choose_hints(question):
     for quest in question_hint:
         if question == quest['question']:
             phrases = quest["phrases"]
-            list_phrases = random.choices(phrases, k=3)
+            list_phrases = sample(phrases, k=3)
             for ph in list_phrases:
                 st.markdown(f"""
                         **Hint: :green[{ph.get("phrase")}]** (:orange[{ph.get("meaning")}])  
-                        *Example: {ph.get("example")}*  
+                        **Example**: *{ph.get("example")}*  
                         """)
-        
 
 topic = st.selectbox('**Choose a topic**', options=topics)
 question = choose_question(topic)
