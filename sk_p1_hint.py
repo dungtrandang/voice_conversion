@@ -364,7 +364,7 @@ def choose_hints(question):
             list_phrases = random.choices(phrases, k=3)
             for ph in list_phrases:
                 st.markdown(f"""
-                        **Hint: {ph.get("phrase")}** ({ph.get("meaning")})  
+                        **Hint: :green[{ph.get("phrase")}]** (:orange[{ph.get("meaning")}])  
                         *Example: {ph.get("example")}*  
                         """)
         
