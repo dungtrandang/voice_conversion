@@ -354,10 +354,10 @@ def choose_question(value):
         if value == top_quest["category"]:
             questions = top_quest["questions"] 
     question = random.choice(questions)
-    st.session_state.sk_question = question
-    if st.button('Change question'):
+    
+    if st.button('Change question') or 'sk_question' not in st.session_state:
         st.session_state.sk_question = random.choice(questions)
-    return st.session_state.sk_question
+    return st.session_state.sk_question or question
 def choose_hints(question):
     for quest in question_hint:
         if question == quest['question']:
@@ -368,8 +368,9 @@ def choose_hints(question):
                         **Hint: :green[{ph.get("phrase")}]** (:orange[{ph.get("meaning")}])  
                         **Example**: *{ph.get("example")}*  
                         """)
-
-topic = st.selectbox('**Choose a topic**', options=topics)
+def reset_question():
+    st.session_state.sk_question = None
+topic = st.selectbox('**Choose a topic**', options=topics, on_change=reset_question())
 question = choose_question(topic)
 st.markdown(f"### {question}")
 if st.button('Gợi ý'):
