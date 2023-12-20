@@ -9,7 +9,7 @@ from audio_recorder_streamlit import audio_recorder
 from ai_corrector import correctness, question, hint
 import random
 from random import sample
-st.session_state.sk_question = ''
+
 sys_random = random.SystemRandom()
 topic_question = [
   {
@@ -354,7 +354,7 @@ def choose_question(value):
         if value == top_quest["category"]:
             questions = top_quest["questions"] 
     st.session_state.sk_question = sys_random.choice(questions)
-    if st.button('Change question')or 'sk_question'=='':
+    if st.button('Change question'):
         st.session_state.sk_question = sys_random.choice(questions)
     return st.session_state.sk_question
 def choose_hints(question):
