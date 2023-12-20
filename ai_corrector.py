@@ -5,7 +5,10 @@ import streamlit as st
 try:
     client = OpenAI()
 except:
-    client = OpenAI(api_key=st.secrets["key"])
+    try:
+        client = OpenAI(api_key=st.secrets["key"])
+    except:
+        pass
 
 answer_func = [
     {
@@ -56,7 +59,7 @@ def hint(level, question, idea):
         {"role": "system", "content": f"You support the english learner to answer an English {question}. \
         The learner might  you an  idea - an question or an idea or an request related to the original question. \
         Respond 3 hints only - not in full sentence, that is suitable with the level {level}. \
-        Each hint includes a nice phrase in the format of a linguistic constructs (e.g. worn out, focus on, kick the bucket), \
+        Each hint includes a nice phrase in the format of a linguistic construct (e.g. worn out, focus on, kick the bucket), \
         the respective meaning, which is always in Vietnamese, and an example that related to the original question. \
          "},
         {"role": "user", "content": f"'{idea}' in English?"}
