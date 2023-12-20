@@ -354,10 +354,10 @@ def choose_question(value):
         if value == top_quest["category"]:
             questions = top_quest["questions"] 
     question = random.choice(questions)
-    st.session_state.sk_question = None
+    st.session_state.sk_question = question
     if st.button('Change question'):
         st.session_state.sk_question = random.choice(questions)
-    return st.session_state.sk_question or question
+    return st.session_state.sk_question
 def choose_hints(question):
     for quest in question_hint:
         if question == quest['question']:
