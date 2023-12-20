@@ -371,6 +371,7 @@ def choose_hints(question):
 def reset_question():
     st.session_state.sk_question = None
 topic = st.selectbox('**Choose a topic**', options=topics)
+choose_question(topic)
 question = st.session_state.sk_question
 st.markdown(f"### {question}")
 if st.button('Gợi ý'):
