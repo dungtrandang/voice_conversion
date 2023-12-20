@@ -355,7 +355,7 @@ def choose_question(value):
             questions = top_quest["questions"] 
     question = random.choice(questions)
     
-    if st.button('Change question') or 'sk_question' not in st.session_state:
+    if st.button('Change question') or 'sk_question' not in st.session_state or not st.session_state.sk_question:
         st.session_state.sk_question = random.choice(questions)
     return st.session_state.sk_question or question
 def choose_hints(question):
