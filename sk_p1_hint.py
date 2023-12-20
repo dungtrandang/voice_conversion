@@ -354,6 +354,7 @@ def choose_question(value):
         if value == top_quest["category"]:
             questions = top_quest["questions"] 
     question = random.choice(questions)
+    st.session_state.sk_question = None
     if st.button('Change question'):
         st.session_state.sk_question = random.choice(questions)
     return st.session_state.sk_question or question
@@ -370,7 +371,7 @@ def choose_hints(question):
 
 topic = st.selectbox('**Choose a topic**', options=topics)
 question = choose_question(topic)
-st.markdown(f"### {st.session_state.sk_question}")
+st.markdown(f"### {question}")
 if st.button('Gợi ý'):
     choose_hints(question)
 
